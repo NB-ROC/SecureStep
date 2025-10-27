@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import 'leaflet-routing-machine';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
 interface Friend {
     id: number;
@@ -13,102 +13,100 @@ interface Friend {
 
 export default function MapApp() {
     const [map, setMap] = useState<L.Map | null>(null);
+    const [selfMarker, setSelfMarker] = useState<L.Marker | null>(null);
+    const [routingControl, setRoutingControl] = useState<L.Routing.Control | null>(null);
 
-    // Vrienden rond Nijmegen
-    const [friends] = useState<Friend[]>([
+    // Hardcoded vrienden
+    const friends: Friend[] = [
         { id: 1, name: 'Alice', lat: 51.845, lng: 5.852 },
         { id: 2, name: 'Bob', lat: 51.840, lng: 5.860 },
         { id: 3, name: 'Charlie', lat: 51.850, lng: 5.855 },
-        { id: 4, name: 'Diana', lat: 51.838, lng: 5.848 },
-    ]);
+    ];
 
-    // Haversine formule voor echte afstand
-    const getDistance = (lat1: number, lng1: number, lat2: number, lng2: number) => {
-        const R = 6371e3; // radius aarde in meters
-        const φ1 = (lat1 * Math.PI) / 180;
-        const φ2 = (lat2 * Math.PI) / 180;
-        const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-        const Δλ = ((lng2 - lng1) * Math.PI) / 180;
-
-        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ/2) * Math.sin(Δλ/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-        return R * c; // afstand in meters
-    };
-
+    // Init map
     useEffect(() => {
         if (!map) {
-            const newMap = L.map('map').setView([51.8425, 5.8528], 13); // Nijmegen centrum
+            const newMap = L.map('map').setView([51.8425, 5.8528], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
             }).addTo(newMap);
             setMap(newMap);
         }
+    }, [map]);
 
+    // Update own location
+    useEffect(() => {
         if (!map) return;
 
-        // Voeg markers toe voor vrienden
-        friends.forEach(f => {
-            L.marker([f.lat, f.lng])
-                .addTo(map)
-                .bindPopup(f.name);
-        });
-
-        // Eigen locatie ophalen
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
                 const { latitude, longitude } = pos.coords;
-                map.setView([latitude, longitude], 13);
 
-                L.marker([latitude, longitude])
-                    .addTo(map)
-                    .bindPopup('Jouw locatie')
-                    .openPopup();
-
-                // Vind dichtstbijzijnde vriend
-                let closestFriend: Friend | null = null;
-                let minDistance = Infinity;
-
-                friends.forEach(f => {
-                    const distance = getDistance(latitude, longitude, f.lat, f.lng);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestFriend = f;
-                    }
-                });
-
-                if (closestFriend) {
-                    // Looproute tonen naar dichtstbijzijnde vriend
-                    // @ts-ignore
-                    L.Routing.control({
-                        waypoints: [
-                            L.latLng(latitude, longitude),
-                            L.latLng(closestFriend.lat, closestFriend.lng),
-                        ],
-                        lineOptions: {
-                            styles: [{ color: 'blue', opacity: 0.6, weight: 5 }]
-                        },
-                        routeWhileDragging: false,
-                        show: true,
-                        addWaypoints: false,
-                        router: L.Routing.osrmv1({
-                            serviceUrl: 'https://router.project-osrm.org/route/v1',
-                            profile: 'foot', // looproute
-                        }),
-                    }).addTo(map);
+                if (!selfMarker) {
+                    const marker = L.marker([latitude, longitude])
+                        .addTo(map)
+                        .bindPopup('Jij')
+                        .openPopup();
+                    setSelfMarker(marker);
+                } else {
+                    selfMarker.setLatLng([latitude, longitude]);
                 }
+
+                map.setView([latitude, longitude], 13);
             });
         }
+    }, [map, selfMarker]);
 
-    }, [map, friends]);
+    // Alert knop: toon route naar een vriend
+    const sendAlert = (friend: Friend) => {
+        if (!map || !selfMarker) return;
+
+        const { lat, lng } = selfMarker.getLatLng();
+
+        // Voeg vriend toe als marker
+        L.marker([friend.lat, friend.lng]).addTo(map).bindPopup(friend.name).openPopup();
+
+        // Verwijder vorige route als die er is
+        if (routingControl) {
+            map.removeControl(routingControl);
+        }
+
+        // Voeg nieuwe wandelroute toe
+        // @ts-ignore
+        const control = L.Routing.control({
+            waypoints: [L.latLng(lat, lng), L.latLng(friend.lat, friend.lng)],
+            lineOptions: { styles: [{ color: 'green', opacity: 0.7, weight: 5 }] },
+            routeWhileDragging: false,
+            addWaypoints: false,
+            router: L.Routing.osrmv1({ profile: 'foot' }), // voetgangersroute
+        }).addTo(map);
+
+        setRoutingControl(control);
+    };
 
     return (
-        <div className="w-full h-screen">
-            <div id="map" className="w-full h-full"></div>
+        <div className="flex h-screen">
+            {/* Sidebar met buttons */}
+            <div className="w-64 p-4 bg-white shadow-lg flex-shrink-0">
+                <h2 className="text-xl font-bold mb-4">Vrienden</h2>
+                <div className="space-y-2">
+                    {friends.map(f => (
+                        <button
+                            key={f.id}
+                            className="w-full flex items-center justify-between px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                            onClick={() => sendAlert(f)}
+                        >
+                            <span>{f.name}</span>
+                            <span className="text-sm">🚶‍♂️</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Kleinere kaart */}
+            <div className="flex-1">
+                <div id="map" className="w-full h-full rounded-lg overflow-hidden"></div>
+            </div>
         </div>
     );
 }
-
-

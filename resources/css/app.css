@@ -1,16 +1,12 @@
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
-@tailwind base;
-@tailwind components;
+
 @tailwind utilities;
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* Dark mode theming */
 :root {
@@ -24,6 +20,6 @@
 }
 
 body {
-    @apply bg-background text-foreground;
+    
 }
 
