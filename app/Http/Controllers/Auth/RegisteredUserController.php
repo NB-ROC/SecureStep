@@ -14,29 +14,34 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'middlename' => ['nullable', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'profilepicture' => ['nullable', 'file', 'max:2048'], // file upload
+            'phonenumber' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Handle profile picture upload
+        $profilePicturePath = $request->hasFile('profilepicture')
+            ? $request->file('profilepicture')->store('profile_pictures', 'public')
+            : null;
+
         $user = User::create([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
+            'profilepicture' => $profilePicturePath,
+            'phonenumber' => $request->phonenumber,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
