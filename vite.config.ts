@@ -12,7 +12,7 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
-        tailwindcss(), // ✅ added Tailwind here
+        tailwindcss(),
         wayfinder({
             formVariants: true,
         }),
