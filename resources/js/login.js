@@ -7,20 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = document.getElementById("submitBtn");
     const toggleBtn = document.getElementById("toggleBtn");
     const formLink = document.getElementById("formLink");
-    const loginAction = "{{ route('login') }}";
-    const registerAction = "{{ route('register') }}";
+
 
 
     let showingLogin = true;
 
-    // Save original height for Login
     const originalHeight = form.offsetHeight;
 
     const createInput = ({ type, name, placeholder, required }) => {
         const input = document.createElement("input");
         input.type = type;
         input.name = name;
-        if (type !== "file" && placeholder) input.placeholder = placeholder; // skip placeholder for files
+        if (type !== "file" && placeholder) input.placeholder = placeholder;
         if (required) input.required = true;
         input.className = "w-full p-3 border rounded mb-2";
         return input;
@@ -31,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.style.overflow = "hidden";
 
     function toggleForm() {
-        // Fade out current fields
+        // inklappen
         gsap.to(formFields.children, {
             autoAlpha: 0,
             y: -10,
@@ -39,18 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
             stagger: 0.05,
             onComplete: () => {
 
-                // Clear fields
+
                 formFields.innerHTML = "";
 
-                // Update form action dynamically
+
                 if (showingLogin) {
-                    form.action = "/register"; // Laravel route for registration
+                    form.action = "/register";
                 } else {
-                    form.action = "/login"; // Laravel route for login
+                    form.action = "/login";
                 }
 
                 if (showingLogin) {
-                    // Full register fields
                     [
                         { type: "text", name: "firstname", placeholder: "First Name", required: true },
                         { type: "text", name: "middlename", placeholder: "Middle Name", required: false },
@@ -62,24 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
                         { type: "password", name: "password_confirmation", placeholder: "Confirm Password", required: true }
                     ].forEach(f => formFields.appendChild(createInput(f)));
                 } else {
-                    // Login fields
+
                     [
                         { type: "email", name: "email", placeholder: "Email", required: true },
                         { type: "password", name: "password", placeholder: "Password", required: true }
                     ].forEach(f => formFields.appendChild(createInput(f)));
                 }
 
-                // Update text
+
                 formTitle.textContent = showingLogin ? "Register" : "Login";
                 submitBtn.textContent = showingLogin ? "Register" : "Login";
                 formLink.textContent = showingLogin ? "Login" : "Register";
-                toggleBtn.textContent = showingLogin ? "2" : "1";
 
-                // Calculate dynamic height based on content
-                const targetHeight = formFields.scrollHeight + 210; // extra padding for title + button + spacing
-                gsap.to(form, { height: targetHeight, duration: 0.5, ease: "power2.out" });
 
-                // Fade in new fields
+                const targetHeight = formFields.scrollHeight + 210;
+                gsap.to(form, { height: targetHeight, duration: 1, ease: "power2.out" });
+
+
                 gsap.fromTo(formFields.children, { autoAlpha: 0, y: -10 }, { autoAlpha: 1, y: 0, duration: 0.25, stagger: 0.05 });
 
                 showingLogin = !showingLogin;
@@ -89,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    toggleBtn.addEventListener("click", toggleForm);
+
     formLink.addEventListener("click", e => { e.preventDefault(); toggleForm(); });
 
-    // Pin initial height
+
     form.style.height = originalHeight + "px";
 });
