@@ -14,10 +14,16 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        // Check for query parameter ?register=1
+        $startRegister = $request->query('register', false);
+
+        return view('auth.login', [
+            'startRegister' => $startRegister
+        ]);
     }
+
 
     public function store(Request $request): RedirectResponse
     {
