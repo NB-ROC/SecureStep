@@ -4,6 +4,10 @@ body{
     background: black;
     color: white;
 }
+input{
+    background: white;
+    color: black;
+}
 
 .blob-layer {
     position: fixed;
@@ -25,52 +29,7 @@ body{
         wander 15s ease-in-out infinite;
     border-radius: 40% 60% 60% 40% / 45% 55% 45% 55%;
 }
-/* Second blob for depth */
-.blob2 {
-    top: -20%;
-    left: 50%;
-    background: linear-gradient(135deg, #1070FF, #10FF11);
-    opacity: 0.2;
-    animation:
-        morph2 22s ease-in-out infinite,
-        wander2 40s ease-in-out infinite;
-}
-.blob3 {
-    position: absolute;
-    width: 30vw;
-    height: 40vw;
-    background: linear-gradient(135deg, #8F10FF, #FF10C3);
-    opacity: 0.25;
-    filter: blur(120px);
-    animation:
-        morph 10s ease-in-out infinite,
-        wander 15s ease-in-out infinite;
-    border-radius: 40% 60% 60% 40% / 45% 55% 45% 55%;
-}
-.blob4 {
-    position: absolute;
-    width: 50vw;
-    height: 60vw;
-    background: linear-gradient(135deg, #103FFF, #FFF310);
-    opacity: 0.25;
-    filter: blur(120px);
-    animation:
-        morph 10s ease-in-out infinite,
-        wander 15s ease-in-out infinite;
-    border-radius: 40% 60% 60% 40% / 45% 55% 45% 55%;
-}
-.blob5 {
-    position: absolute;
-    width: 20vw;
-    height: 30vw;
-    background: linear-gradient(135deg, #10FF11, #FF10C3);
-    opacity: 0.25;
-    filter: blur(120px);
-    animation:
-        morph 10s ease-in-out infinite,
-        wander 15s ease-in-out infinite;
-    border-radius: 40% 60% 60% 40% / 45% 55% 45% 55%;
-}
+
 
 /* Morphing */
 @keyframes morph {
@@ -78,35 +37,6 @@ body{
     33%  { border-radius: 60% 40% 50% 50% / 60% 40% 60% 40%; }
     66%  { border-radius: 55% 45% 40% 60% / 50% 60% 55% 45%; }
     100% { border-radius: 40% 60% 60% 40% / 45% 55% 45% 55%; }
-}
-
-@keyframes morph2 {
-    0%   { border-radius: 55% 45% 45% 55% / 60% 40% 50% 50%; }
-    33%  { border-radius: 40% 60% 60% 40% / 50% 50% 60% 40%; }
-    66%  { border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%; }
-    100% { border-radius: 55% 45% 45% 55% / 60% 40% 50% 50%; }
-}
-@keyframes morph3 {
-    0%   { border-radius: 35% 65% 55% 45% / 50% 40% 60% 50%; }
-    25%  { border-radius: 60% 40% 45% 55% / 55% 50% 45% 50%; }
-    50%  { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; }
-    75%  { border-radius: 65% 35% 50% 50% / 60% 40% 40% 60%; }
-    100% { border-radius: 35% 65% 55% 45% / 50% 40% 60% 50%; }
-}
-
-@keyframes morph4 {
-    0%   { border-radius: 60% 40% 40% 60% / 55% 45% 55% 45%; }
-    20%  { border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%; }
-    50%  { border-radius: 55% 45% 45% 55% / 60% 40% 50% 50%; }
-    80%  { border-radius: 40% 60% 55% 45% / 45% 55% 60% 40%; }
-    100% { border-radius: 60% 40% 40% 60% / 55% 45% 55% 45%; }
-}
-
-@keyframes morph5 {
-    0%   { border-radius: 50% 50% 45% 55% / 65% 35% 45% 55%; }
-    33%  { border-radius: 65% 35% 50% 50% / 50% 50% 60% 40%; }
-    66%  { border-radius: 40% 60% 60% 40% / 45% 55% 55% 45%; }
-    100% { border-radius: 50% 50% 45% 55% / 65% 35% 45% 55%; }
 }
 
 
@@ -117,41 +47,3 @@ body{
     80%  { transform: translate(25vw, -10vh) scale(2); }
     100% { transform: translate(0, 0) scale(1); }
 }
-
-/* WANDER 2 — Down-Right → Up-Left sweep */
-@keyframes wander2 {
-    0%   { transform: translate(0, 0) scale(0.6); }
-    20%  { transform: translate(30vw, 35vh) scale(1.2); }
-    50%  { transform: translate(-25vw, -20vh) scale(1.9); }
-    80%  { transform: translate(20vw, 20vh) scale(1.15); }
-    100% { transform: translate(0, 0) scale(1.1); }
-}
-
-/* WANDER 3 — Up-Left → Down-Right sweep */
-@keyframes wander3 {
-    0%   { transform: translate(0, 0) scale(1); }
-    20%  { transform: translate(-40vw, -30vh) scale(1.2); }
-    50%  { transform: translate(30vw, 30vh) scale(2.5); }
-    80%  { transform: translate(-15vw, -20vh) scale(1.25); }
-    100% { transform: translate(0, 0) scale(1); }
-}
-
-/* WANDER 4 — Down-Left → Up-Right sweep */
-@keyframes wander4 {
-    0%   { transform: translate(0, 0) scale(1.1); }
-    20%  { transform: translate(-35vw, 40vh) scale(2); }
-    50%  { transform: translate(40vw, -25vh) scale(1.05); }
-    80%  { transform: translate(-20vw, 20vh) scale(1.2); }
-    100% { transform: translate(0, 0) scale(0.3); }
-}
-
-/* WANDER 5 — Big zig-zag across entire screen */
-@keyframes wander5 {
-    0%   { transform: translate(0, 0) scale(0.9); }
-    20%  { transform: translate(45vw, -35vh) scale(1.8); }
-    50%  { transform: translate(-40vw, 40vh) scale(1.3); }
-    80%  { transform: translate(25vw, -20vh) scale(1.05); }
-    100% { transform: translate(0, 0) scale(0.4); }
-}
-
-

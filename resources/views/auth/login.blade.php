@@ -8,10 +8,9 @@
     @vite(['resources/css/app.css', 'resources/js/login.js'])
 
 </head>
-<body class="min-h-screen flex flex-col bg-gray-50">
+<body class="min-h-screen flex flex-col">
 
-<header class=" shadow p-4 flex justify-between">
-    <h1 class="text-center text-xl font-semibold">Login</h1>
+<header class=" p-4 flex justify-end ">
     <img src="{{ asset('logo.png') }}" alt="Logo" class="h-12">
 </header>
 
@@ -39,7 +38,7 @@
             <input type="password" name="password" placeholder="Password" required class="w-full p-3 border rounded">
         </div>
 
-        <button type="submit" id="submitBtn" class="w-full bg-[#00E701] py-2 rounded hover:bg-[#00B401]">
+        <button type="submit" id="submitBtn" class="w-full bg-[#00E701]  py-2 rounded hover:bg-[#00B401]">
             Login
         </button>
 
