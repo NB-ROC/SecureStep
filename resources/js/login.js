@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const formTitle = document.getElementById("formTitle");
     const formFields = document.getElementById("formFields");
     const submitBtn = document.getElementById("submitBtn");
-    const toggleBtn = document.getElementById("toggleBtn");
     const formLink = document.getElementById("formLink");
 
 
