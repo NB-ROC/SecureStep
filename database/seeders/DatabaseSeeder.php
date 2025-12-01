@@ -13,31 +13,58 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // vaste test user om in te loggen
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        // Hoofd test user
+        User::factory()->create([
+            'firstname' => 'Test',
+            'middlename' => null,
+            'lastname'  => 'User',
+            'email'     => 'test@example.com',
+            'password'  => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
 
-        // een paar vaste namen
+        // vaste gebruikers met voor- en achternaam
         $fixedUsers = [
-            ['name' => 'Alice Janssen',   'email' => 'alice@example.com'],
-            ['name' => 'Bob de Vries',    'email' => 'bob@example.com'],
-            ['name' => 'Charlie Bakker',  'email' => 'charlie@example.com'],
-            ['name' => 'Diana Peters',    'email' => 'diana@example.com'],
-            ['name' => 'Eren Yeager',     'email' => 'eren@example.com'],
+            [
+                'firstname' => 'Alice',
+                'middlename' => null,
+                'lastname'  => 'Janssen',
+                'email'     => 'alice@example.com',
+            ],
+            [
+                'firstname' => 'Bob',
+                'middlename' => null,
+                'lastname'  => 'de Vries',
+                'email'     => 'bob@example.com',
+            ],
+            [
+                'firstname' => 'Charlie',
+                'middlename' => null,
+                'lastname'  => 'Bakker',
+                'email'     => 'charlie@example.com',
+            ],
+            [
+                'firstname' => 'Diana',
+                'middlename' => null,
+                'lastname'  => 'Peters',
+                'email'     => 'diana@example.com',
+            ],
+            [
+                'firstname' => 'Eren',
+                'middlename' => null,
+                'lastname'  => 'Yeager',
+                'email'     => 'eren@example.com',
+            ],
         ];
 
         foreach ($fixedUsers as $data) {
             User::firstOrCreate(
                 ['email' => $data['email']],
                 [
-                    'name' => $data['name'],
-                    'password' => Hash::make('password'),
+                    'firstname' => $data['firstname'],
+                    'middlename' => $data['middlename'],
+                    'lastname'  => $data['lastname'],
+                    'password'  => Hash::make('password'),
                     'email_verified_at' => now(),
                 ]
             );
