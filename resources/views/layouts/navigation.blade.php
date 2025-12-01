@@ -8,7 +8,7 @@
             {{ __('Friends') }}
         </x-nav-link>
 
-        <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+        <x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.*')">
             {{ __('Profile') }}
         </x-nav-link>
     </div>

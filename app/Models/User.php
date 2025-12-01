@@ -37,4 +37,16 @@ class User extends Authenticatable
         $names = [$this->firstname, $this->middlename, $this->lastname];
         return implode(' ', array_filter($names));
     }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')
+            ->withTimestamps();
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')
+            ->withTimestamps();
+    }
 }

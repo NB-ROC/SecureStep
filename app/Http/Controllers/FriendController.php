@@ -4,37 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class FriendController extends Controller
 {
-    /**
-     * Toon de zoekpagina voor gebruikers.
-     */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
-        $search = $request->input('q');
+        // altijd string, ook als q ontbreekt
+        $search = (string) $request->query('q', '');
 
-        // Standaard lege collectie als er nog niet gezocht is
-        $users = collect();
-
-        if ($search) {
-            $users = User::query()
-                ->where('id', '!=', $request->user()->id) // jezelf eruit filteren
-                ->where(function ($query) use ($search) {
-                    $query->where('firstname', 'like', "%{$search}%")
+        // basis-query: iedereen behalve jezelf
+        $users = User::query()
+            ->where('id', '!=', $request->user()->id)
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('firstname', 'like', "%{$search}%")
                         ->orWhere('middlename', 'like', "%{$search}%")
                         ->orWhere('lastname', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%");
-                })
-                ->orderBy('firstname')
-                ->limit(25)
-                ->get();
+                });
+            })
+            ->orderBy('firstname')
+            ->limit(25)
+            ->get();
+
+        // ids van alle users die jij volgt
+        $followingIds = $request->user()
+            ->following()
+            ->pluck('users.id')
+            ->toArray();
+
+        // AJAX request: alleen de partial teruggeven
+        if ($request->ajax()) {
+            return view('friends._results', [
+                'users'        => $users,
+                'search'       => $search,
+                'followingIds' => $followingIds,
+            ]);
         }
 
+        // normale page load
         return view('friends.index', [
-            'users'  => $users,
-            'search' => $search,
+            'users'        => $users,
+            'search'       => $search,
+            'followingIds' => $followingIds,
         ]);
     }
 }
