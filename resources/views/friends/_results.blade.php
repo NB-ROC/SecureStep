@@ -19,7 +19,7 @@
                     <button
                         type="button"
                         class="follow-toggle px-4 py-2 rounded-md text-sm font-semibold
-                               {{ $isFollowing ? 'border border-black text-black bg-yellow-300' : 'bg-black text-white' }}"
+                               {{ $isFollowing ? 'border border-black text-black bg-white' : 'bg-black text-white' }}"
                         data-user-id="{{ $user->id }}"
                         data-following="{{ $isFollowing ? '1' : '0' }}"
                         data-follow-url="{{ route('follow.store', $user) }}"
