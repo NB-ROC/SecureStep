@@ -11,16 +11,17 @@
                 <div class="p-6">
 
                     {{-- Zoekbalk --}}
-                    <form method="GET" action="{{ route('friends.index') }}">
-                        <div class="flex gap-2">
+                    <form method="GET" action="{{ route('friends.index') }} ">
+                        <div class="flex gap-2 ">
                             <input
                                 id="friends-search"
                                 type="text"
                                 name="q"
                                 value="{{ old('q', $search) }}"
                                 placeholder="Zoek op naam of e-mail"
-                                class=" placeholder-gray-400 border-gray-300  rounded-md shadow-sm w-full"
-                            >
+                                class="placeholder-gray-400 border-gray-300 rounded-md shadow-sm w-full h-12 pl-3"
+                            />
+
                         </div>
                     </form>
 
@@ -96,11 +97,11 @@
                                         button.textContent = nowFollowing ? 'Ontvolgen' : 'Volgen';
 
                                         // classes updaten
-                                        button.classList.toggle('bg-black', !nowFollowing);
+                                        button.classList.toggle('bg-[#00E701]', !nowFollowing);
                                         button.classList.toggle('text-white', !nowFollowing);
                                         button.classList.toggle('border', nowFollowing);
-                                        button.classList.toggle('border-black', nowFollowing);
-                                        button.classList.toggle('text-black', nowFollowing);
+                                        button.classList.toggle('border-[#DC362E]', nowFollowing);
+                                        button.classList.toggle('text-[#DC362E]', nowFollowing);
                                         button.classList.toggle('bg-white', nowFollowing);
                                     })
                                     .catch(error => console.error(error));
