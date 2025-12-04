@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-neutral-900 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
 
                     {{-- Zoekbalk --}}
@@ -19,7 +19,7 @@
                                 name="q"
                                 value="{{ old('q', $search) }}"
                                 placeholder="Zoek op naam of e-mail"
-                                class="text-black placeholder-gray-400 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+                                class=" placeholder-gray-400 border-gray-300  rounded-md shadow-sm w-full"
                             >
                         </div>
                     </form>
@@ -96,11 +96,11 @@
                                         button.textContent = nowFollowing ? 'Ontvolgen' : 'Volgen';
 
                                         // classes updaten
-                                        button.classList.toggle('bg-indigo-600', !nowFollowing);
+                                        button.classList.toggle('bg-black', !nowFollowing);
                                         button.classList.toggle('text-white', !nowFollowing);
                                         button.classList.toggle('border', nowFollowing);
-                                        button.classList.toggle('border-indigo-500', nowFollowing);
-                                        button.classList.toggle('text-indigo-600', nowFollowing);
+                                        button.classList.toggle('border-black', nowFollowing);
+                                        button.classList.toggle('text-black', nowFollowing);
                                         button.classList.toggle('bg-white', nowFollowing);
                                     })
                                     .catch(error => console.error(error));

@@ -5,7 +5,7 @@
                 $isFollowing = in_array($user->id, $followingIds ?? []);
             @endphp
 
-            <div class="flex items-center justify-between border-b pb-2 bg-white rounded-md p-4">
+            <div class=" flex items-center justify-between border-b pb-2 bg-white rounded-md p-4">
                 <div>
                     <div class="font-semibold">
                         {{ $user->firstname }} {{ $user->lastname }}
@@ -19,7 +19,7 @@
                     <button
                         type="button"
                         class="follow-toggle px-4 py-2 rounded-md text-sm font-semibold
-                               {{ $isFollowing ? 'border border-indigo-500 text-indigo-600 bg-white' : 'bg-indigo-600 text-white' }}"
+                               {{ $isFollowing ? 'border border-black text-black bg-yellow-300' : 'bg-black text-white' }}"
                         data-user-id="{{ $user->id }}"
                         data-following="{{ $isFollowing ? '1' : '0' }}"
                         data-follow-url="{{ route('follow.store', $user) }}"
