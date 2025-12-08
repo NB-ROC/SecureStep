@@ -5,12 +5,12 @@
                 $isFollowing = in_array($user->id, $followingIds ?? []);
             @endphp
 
-            <div class=" flex items-center justify-between border-b pb-2 bg-white rounded-md p-4">
+            <div class="flex items-center justify-between border border-neutral-700 bg-neutral-800 rounded-md p-4 hover:bg-neutral-700 transition">
                 <div>
-                    <div class="font-semibold">
+                    <div class="font-semibold text-white">
                         {{ $user->firstname }} {{ $user->lastname }}
                     </div>
-                    <div class="text-sm text-gray-500">
+                    <div class="text-sm text-gray-400">
                         {{ $user->email }}
                     </div>
                 </div>
@@ -18,8 +18,8 @@
                 @if(auth()->id() !== $user->id)
                     <button
                         type="button"
-                        class="follow-toggle px-4 py-2 rounded-md text-sm font-semibold
-                               {{ $isFollowing ? 'border border-[#DC362E] text-[#DC362E] bg-white' : 'bg-[#00E701] text-white' }}"
+                        class="follow-toggle px-4 py-2 rounded-md text-sm font-semibold shadow-md
+                               {{ $isFollowing ? 'border border-[#DC362E] text-[#DC362E] bg-neutral-900 ' : 'bg-[#00E701] text-black ' }}"
                         data-user-id="{{ $user->id }}"
                         data-following="{{ $isFollowing ? '1' : '0' }}"
                         data-follow-url="{{ route('follow.store', $user) }}"
@@ -32,11 +32,11 @@
         @endforeach
     </div>
 @elseif(strlen(trim($search ?? '')) > 0)
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-400">
         Geen gebruikers gevonden voor "{{ $search }}".
     </p>
 @else
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-400">
         Gebruik de zoekbalk hierboven om gebruikers te zoeken.
     </p>
 @endif

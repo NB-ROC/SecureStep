@@ -12,18 +12,19 @@
 
                     {{-- Zoekbalk --}}
                     <form method="GET" action="{{ route('friends.index') }} ">
-                        <div class="flex gap-2 ">
+                        <div class="flex gap-2">
                             <input
                                 id="friends-search"
                                 type="text"
                                 name="q"
                                 value="{{ old('q', $search) }}"
                                 placeholder="Zoek op naam of e-mail"
-                                class="placeholder-gray-400 border-gray-300 rounded-md shadow-sm w-full h-12 pl-3"
+                                class="placeholder-gray-400 border border-neutral-700 rounded-md shadow-sm w-full h-12 pl-3 focus:outline-none "
+                                style="background-color: #111; color: white;"
                             />
-
                         </div>
                     </form>
+
 
                     {{-- Resultaten container --}}
                     <div id="friends-results" class="mt-6">
@@ -98,11 +99,11 @@
 
                                         // classes updaten
                                         button.classList.toggle('bg-[#00E701]', !nowFollowing);
-                                        button.classList.toggle('text-white', !nowFollowing);
+                                        button.classList.toggle('text-black', !nowFollowing);
                                         button.classList.toggle('border', nowFollowing);
                                         button.classList.toggle('border-[#DC362E]', nowFollowing);
                                         button.classList.toggle('text-[#DC362E]', nowFollowing);
-                                        button.classList.toggle('bg-white', nowFollowing);
+                                        button.classList.toggle('bg-black', nowFollowing);
                                     })
                                     .catch(error => console.error(error));
                             });
