@@ -10,5 +10,16 @@
 </head>
 <body class="font-sans antialiased">
 <div id="app"></div>
+<x-footer-nav
+    left-label="Dashboard"
+    left-link="/dashboard"
+    center-label="SOS"
+    right-label="Profile"
+    right-link="/profile"
+    secondary-label="Map"
+    secondary-link="/"
+    aux-label="Friends"
+    aux-link="/friends"
+/>
 </body>
 </html>
