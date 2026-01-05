@@ -10,34 +10,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Show the registration page.
-     */
-    public function create(): Response
+    public function create(Request $request): View
     {
-        return Inertia::render('auth/register');
+        // Check for query parameter ?register=1
+        $startRegister = $request->query('register', false);
+
+        return view('auth.login', [
+            'startRegister' => $startRegister
+        ]);
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'firstname' => ['required', 'string', 'max:255'],
+            'middlename' => ['nullable', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'profilepicture' => ['nullable', 'file', 'max:2048'], // file upload
+            'phonenumber' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Handle profile picture upload
+        $profilePicturePath = $request->hasFile('profilepicture')
+            ? $request->file('profilepicture')->store('profile_pictures', 'public')
+            : null;
+
         $user = User::create([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
+            'profilepicture' => $profilePicturePath,
+            'phonenumber' => $request->phonenumber,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -46,6 +56,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect(route('dashboard', absolute: false));
     }
 }
