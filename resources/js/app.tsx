@@ -1,7 +1,7 @@
 import '../css/app.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MapApp from './MapApp';
+import MapApp from './MapComponent';
 
 ReactDOM.createRoot(document.getElementById('app')!).render(<MapApp />);
 
