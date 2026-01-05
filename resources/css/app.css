@@ -98,5 +98,52 @@ input{
     transform: translateY(-20px) translate(2px, 2px);
 }
 
+.sos-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.sos-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    width: 280px;
+}
+
+.sos-modal-content h2 {
+    margin-bottom: 10px;
+    color: #d32f2f;
+}
+
+.sos-modal-content p {
+    margin-bottom: 20px;
+}
+
+.sos-modal-content button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sos-modal-content button:first-of-type {
+    background: #d32f2f;
+    color: white;
+}
+
+.cancel-btn {
+    background: #ccc;
+}
+
+
 
 
