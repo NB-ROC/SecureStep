@@ -20,27 +20,35 @@
     </a>
 </footer>
 
+
 <div id="sosModal" class="sos-modal">
     <div class="sos-modal-content">
-        <h2>Emergency Alert</h2>
-        <p>Calling emergency number.</p>
-        <button onclick="confirmSOS()">Call Now</button>
-        <button class="cancel-btn" onclick="closeSOSModal()">Cancel</button>
+        <h2>SOS Emergency</h2>
+        <p>You are about to call the emergency number.</p>
+
+        <button class="sos-confirm-btn" onclick="handleSOSConfirm()">
+            Call Emergency
+        </button>
+
+        <button class="cancel-btn" onclick="hideSOSModal()">
+            Cancel
+        </button>
     </div>
 </div>
 
-
 <script>
+    const sosModal = document.getElementById('sosModal');
+
     function openSOSModal(event) {
         event.preventDefault();
-        document.getElementById("sosModal").style.display = "flex";
+        sosModal.style.display = 'flex';
     }
 
-    function closeSOSModal() {
-        document.getElementById("sosModal").style.display = "none";
+    function hideSOSModal() {
+        sosModal.style.display = 'none';
     }
 
-    function confirmSOS() {
-        window.location.href = "tel:446";
+    function handleSOSConfirm() {
+        window.location.href = 'tel:446';
     }
 </script>
