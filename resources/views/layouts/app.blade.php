@@ -13,7 +13,23 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- PWA manifest & theme color -->
+    <link rel="manifest" href="{{ asset('build/manifest.json') }}">
+    <meta name="theme-color" content="#0d6efd">
+
+    <!-- Service Worker registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/serviceworker.js')
+                    .then(registration => console.log('ServiceWorker registered!', registration))
+                    .catch(err => console.log('ServiceWorker failed:', err));
+            });
+        }
+    </script>
 </head>
+
 <body class="font-sans antialiased">
 <div class="min-h-screen">
     @include('layouts.navigation')
