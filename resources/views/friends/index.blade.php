@@ -21,31 +21,29 @@
                                 placeholder="Zoek op naam of e-mail"
                                 class="placeholder-gray-400 border-gray-300 rounded-md shadow-sm w-full h-12 pl-3"
                             />
-
                         </div>
                     </form>
 
                     {{-- Resultaten container --}}
                     <div id="friends-results" class="mt-6">
                         @include('friends._results', [
-                            'users'        => $users,
-                            'search'       => $search,
-                            'followingIds' => $followingIds,
+                            'users'           => $users,
+                            'search'          => $search,
+                            'followingIds'    => $followingIds,
+                            'outgoingPending' => $outgoingPending ?? collect(),
+                            'incomingPending' => $incomingPending ?? collect(),
                         ])
                     </div>
 
-                    {{-- Live search + follow/unfollow --}}
+                    {{-- Live search --}}
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
                             let friendsSearchTimer;
                             const input   = document.getElementById('friends-search');
                             const results = document.getElementById('friends-results');
-                            const csrfTag = document.querySelector('meta[name="csrf-token"]');
-                            const csrf    = csrfTag ? csrfTag.getAttribute('content') : '';
 
                             if (!input || !results) return;
 
-                            // LIVE SEARCH
                             input.addEventListener('input', function () {
                                 const query = this.value;
 
@@ -67,47 +65,9 @@
                                         .catch(err => console.error(err));
                                 }, 300);
                             });
-
-                            // FOLLOW / UNFOLLOW toggle (event delegation)
-                            document.addEventListener('click', function (event) {
-                                const button = event.target.closest('.follow-toggle');
-                                if (!button) return;
-
-                                const isFollowing = button.dataset.following === '1';
-                                const url    = isFollowing ? button.dataset.unfollowUrl : button.dataset.followUrl;
-                                const method = isFollowing ? 'DELETE' : 'POST';
-
-                                fetch(url, {
-                                    method: method,
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrf,
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'Accept': 'application/json',
-                                    },
-                                })
-                                    .then(response => {
-                                        if (!response.ok) {
-                                            throw new Error('Request failed');
-                                        }
-                                        return response.json().catch(() => ({}));
-                                    })
-                                    .then(() => {
-                                        const nowFollowing = !isFollowing;
-                                        button.dataset.following = nowFollowing ? '1' : '0';
-                                        button.textContent = nowFollowing ? 'Ontvolgen' : 'Volgen';
-
-                                        // classes updaten
-                                        button.classList.toggle('bg-[#00E701]', !nowFollowing);
-                                        button.classList.toggle('text-white', !nowFollowing);
-                                        button.classList.toggle('border', nowFollowing);
-                                        button.classList.toggle('border-[#DC362E]', nowFollowing);
-                                        button.classList.toggle('text-[#DC362E]', nowFollowing);
-                                        button.classList.toggle('bg-white', nowFollowing);
-                                    })
-                                    .catch(error => console.error(error));
-                            });
                         });
                     </script>
+
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\FollowRequestController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -25,6 +26,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
+
+    Route::post('/follow-requests/{user}', [FollowRequestController::class, 'store'])->name('followRequests.store');
+    Route::post('/follow-requests/{followRequest}/accept', [FollowRequestController::class, 'accept'])->name('followRequests.accept');
+    Route::post('/follow-requests/{followRequest}/reject', [FollowRequestController::class, 'reject'])->name('followRequests.reject');
+    Route::delete('/follow-requests/{followRequest}', [FollowRequestController::class, 'cancel'])->name('followRequests.cancel');
 });
 
 require __DIR__.'/auth.php';

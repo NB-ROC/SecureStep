@@ -102,7 +102,40 @@
                         </div>
                     </div>
 
-                    {{-- Optioneel: link naar vrienden zoeken --}}
+                    {{-- Inkomende volgverzoeken (1x) --}}
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-[#00E701] mb-2">Inkomende volgverzoeken</h4>
+
+                        @if(isset($incomingRequests) && $incomingRequests->count())
+                            <ul class="space-y-2 text-sm">
+                                @foreach($incomingRequests as $req)
+                                    <li class="flex justify-between">
+                                        <span>
+                                            {{ $req->requester->firstname }} {{ $req->requester->lastname }}
+                                        </span>
+
+                                        <span>
+                                            <form method="POST" action="{{ route('followRequests.accept', $req) }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit">Accepteren</button>
+                                            </form>
+
+                                            <form method="POST" action="{{ route('followRequests.reject', $req) }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit">Weigeren</button>
+                                            </form>
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-sm ">
+                                Geen inkomende volgverzoeken.
+                            </p>
+                        @endif
+                    </div>
+
+                    {{-- Link naar vrienden zoeken --}}
                     <div class="mt-6">
                         <a
                             href="{{ route('friends.index') }}"

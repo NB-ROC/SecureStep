@@ -19,12 +19,19 @@ class ProfileController extends Controller
         $followers = $user->followers()->limit(10)->get();
         $following = $user->following()->limit(10)->get();
 
+        $incomingRequests = $user->incomingFollowRequests()
+            ->where('status', 'pending')
+            ->with('requester')
+            ->latest()
+            ->get();
+
         return view('profile.show', [
             'user'            => $user,
             'followersCount'  => $followersCount,
             'followingCount'  => $followingCount,
             'followers'       => $followers,
             'following'       => $following,
+            'incomingRequests' => $incomingRequests,
         ]);
     }
 

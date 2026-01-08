@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Models\FollowRequest;
 
 class User extends Authenticatable
 {
@@ -48,5 +49,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')
             ->withTimestamps();
+    }
+
+    public function outgoingFollowRequests()
+    {
+        return $this->hasMany(FollowRequest::class, 'requester_id');
+    }
+
+    public function incomingFollowRequests()
+    {
+        return $this->hasMany(FollowRequest::class, 'requested_id');
     }
 }

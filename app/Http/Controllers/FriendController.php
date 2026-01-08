@@ -33,12 +33,26 @@ class FriendController extends Controller
             ->pluck('users.id')
             ->toArray();
 
+        $outgoingPending = $request->user()
+            ->outgoingFollowRequests()
+            ->where('status', 'pending')
+            ->get()
+            ->keyBy('requested_id');
+
+        $incomingPending = $request->user()
+            ->incomingFollowRequests()
+            ->where('status', 'pending')
+            ->get()
+            ->keyBy('requester_id');
+
         // AJAX request: alleen de partial teruggeven
         if ($request->ajax()) {
             return view('friends._results', [
                 'users'        => $users,
                 'search'       => $search,
                 'followingIds' => $followingIds,
+                'outgoingPending' => $outgoingPending,
+                'incomingPending' => $incomingPending,
             ]);
         }
 
@@ -47,6 +61,8 @@ class FriendController extends Controller
             'users'        => $users,
             'search'       => $search,
             'followingIds' => $followingIds,
+            'outgoingPending' => $outgoingPending,
+            'incomingPending' => $incomingPending,
         ]);
     }
 }
