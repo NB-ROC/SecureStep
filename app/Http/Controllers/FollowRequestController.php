@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FollowRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FollowRequestController extends Controller
@@ -28,29 +27,26 @@ class FollowRequestController extends Controller
             ->first();
 
         if ($req) {
-            // Als het al pending is: niks doen
             if ($req->status === 'pending') {
                 return back()->with('success', 'Volgverzoek is al ingediend.');
             }
 
-            // Als het eerder rejected/cancelled was: zet terug naar pending
             if (in_array($req->status, ['rejected', 'cancelled'])) {
                 $req->update(['status' => 'pending']);
                 return back()->with('success', 'Volgverzoek opnieuw verstuurd.');
             }
 
-            // accepted (zou normaal niet voorkomen omdat following-check hierboven)
             return back()->withErrors('Dit verzoek is al geaccepteerd.');
         }
 
-        // (Slim) als zij al pending naar jou hebben gestuurd
-        $incoming =FollowRequest::where('requester_id', $user->id)
+        // Als zij al pending naar jou hebben gestuurd
+        $incoming = FollowRequest::where('requester_id', $user->id)
             ->where('requested_id', $me->id)
             ->where('status', 'pending')
             ->first();
 
         if ($incoming) {
-            return back()->withErrors('Deze gebruiker heeft jou al een verzoek gestuurd. Accepteer/weis dat eerst.');
+            return back()->withErrors('Deze gebruiker heeft jou al een verzoek gestuurd. Accepteer/weiger dat eerst.');
         }
 
         FollowRequest::create([
@@ -70,21 +66,19 @@ class FollowRequestController extends Controller
             abort(403);
         }
 
-        // requester = Alice, requested = Bob(me)
         $requester = User::findOrFail($followRequest->requester_id);
 
-        // Markeer deze request als accepted
+        // Markeer request als accepted
         $followRequest->update(['status' => 'accepted']);
 
-        // 1) Alice volgt Bob
-        $requester->following()->syncWithoutDetaching([$me->id]);
+        // Mutual follow
+        $requester->following()->syncWithoutDetaching([$me->id]);        // requester -> me
+        $me->following()->syncWithoutDetaching([$requester->id]);        // me -> requester
 
-        // 2) Bob volgt Alice (wederzijds)
-        $me->following()->syncWithoutDetaching([$requester->id]);
-
-        // 3) Als er al een "tegen-request" bestaat (Bob -> Alice), markeer die ook accepted
+        // Alleen pending reverse request (indien die bestaat) ook accepted maken
         $reverse = FollowRequest::where('requester_id', $me->id)
             ->where('requested_id', $requester->id)
+            ->where('status', 'pending')
             ->first();
 
         if ($reverse) {

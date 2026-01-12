@@ -15,10 +15,11 @@ class UserFactory extends Factory
         return [
             'firstname' => fake()->firstName(),
             'middlename' => null,
-            'lastname'  => fake()->lastName(),
+            'lastname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
 
+            // NIET Hash::make hier, User model cast doet hashing al
             'password' => 'password',
 
             'remember_token' => Str::random(10),

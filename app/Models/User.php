@@ -2,25 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use App\Models\FollowRequest;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'firstname',
         'middlename',
         'lastname',
-        'profilepicture',
-        'phonenumber',
         'email',
         'password',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -28,36 +24,41 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
-
-    public function getFullNameAttribute(): string
+    protected function casts(): array
     {
-        $names = [$this->firstname, $this->middlename, $this->lastname];
-        return implode(' ', array_filter($names));
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
+    /**
+     * Users die IK volg (ik -> zij).
+     * Pivot: follows(user_id, following_id)
+     */
     public function following()
     {
-        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_id')
             ->withTimestamps();
     }
 
+    /**
+     * Users die MIJ volgen (zij -> ik).
+     * Pivot: follows(user_id, following_id)
+     */
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'user_id')
             ->withTimestamps();
     }
 
     public function outgoingFollowRequests()
     {
-        return $this->hasMany(FollowRequest::class, 'requester_id');
+        return $this->hasMany(\App\Models\FollowRequest::class, 'requester_id');
     }
 
     public function incomingFollowRequests()
     {
-        return $this->hasMany(FollowRequest::class, 'requested_id');
+        return $this->hasMany(\App\Models\FollowRequest::class, 'requested_id');
     }
 }
