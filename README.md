@@ -3,11 +3,14 @@
 
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
-[![Issues][issues-shield]][issues-url]
-[![License][license-shield]][license-url]
+<!-- Badge definitions -->
+[contributors-shield]: https://img.shields.io/github/contributors/NB-ROC/SecureStep.svg?style=for-the-badge
+[contributors-url]: https://github.com/NB-ROC/SecureStep/graphs/contributors
+
 
 <!-- PROJECT LOGO -->
 <br />
+
 <div align="center">
   <h3 align="center">SafeWalk App</h3>
 
@@ -105,6 +108,7 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 - npm
 - PHP & Composer
 - Laravel
+- Breeze
 
 ### Installation
 
