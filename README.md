@@ -14,12 +14,7 @@
   <p align="center">
     A Progressive Web App that helps people feel safer when walking alone at night.
     <br />
-    <br />
-    <a href="#getting-started">Getting Started</a>
-    ·
-    <a href="#roadmap">Roadmap</a>
-    ·
-    <a href="#contact">Contact</a>
+    
   </p>
 </div>
 
@@ -56,10 +51,15 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 
 ---
 
-## Built With
+### Built With
 
 * [![React][React.js]][React-url]
-* [![Laravel][Laravel.com]][Laravel-url]
+* ![Laravel][Laravel.com]
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+
 
 **Overig**
 - Progressive Web App (PWA)
@@ -80,18 +80,19 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 
 ## Scope
 
-### MVP Functionaliteiten
+### Functionaliteiten
 - Registreren & inloggen (Laravel)
 - Vrienden toevoegen en beheren
-- Real-time locatie delen
-- Paniekknop met noodmeldingen
-- Veilige routeplanner (drukte & verlichting)
-- Automatische melding bij aankomst
+- Paniekknop met noodmeldingen (SOS)
+
 
 ### Toekomstige Uitbreidingen
 - Virtuele begeleiding (bellen / videobellen)
 - Geavanceerde routeveiligheid
 - Koppeling met 112
+- Real-time locatie delen
+- Veilige routeplanner (drukte & verlichting)
+- Automatische melding bij aankomst
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -110,12 +111,17 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 1. Clone de repository
    ```sh
    git clone https://github.com/your_username/safewalk-app.git
-Installeer frontend dependencies
-npm install
-Backend dependencies
-composer install
-Configureer .env
-Start de applicatie
-npm run dev
-php artisan serve
+2. Installeer frontend dependencies
+    ```sh
+    npm install
+3. Backend dependencies
+    ```sh
+    composer install
+4. Configureer .env
+5. Start de applicatie
+    ```sh
+    npm run dev
+    php artisan serve
+    ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
