@@ -12,10 +12,10 @@
 <br />
 
 <div align="center">
-  <h3 align="center">SafeWalk App</h3>
+  <h3 align="center">SecureStep</h3>
 
   <p align="center">
-    A Progressive Web App that helps people feel safer when walking alone at night.
+ Een veiligheidsapp waarmee gebruikers veilig naar huis kunnen lopen of reizen
     <br />
     
   </p>
@@ -23,10 +23,10 @@
 
 ---
 
-## About The Project
+## Over SecureStep
 
 Veel mensen, vooral vrouwen en jongeren, voelen zich ’s avonds onveilig wanneer zij alleen over straat lopen.  
-**SafeWalk** is een Progressive Web App die dit gevoel van onveiligheid vermindert door:
+**SecureStep** is een App die dit gevoel van onveiligheid vermindert door:
 
 - Real-time locatie delen
 - Veilige routeplanning
@@ -104,7 +104,6 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 ## Getting Started
 
 ### Prerequisites
-- Node.js
 - npm
 - PHP & Composer
 - Laravel
@@ -114,7 +113,7 @@ Een veiligheidsapp ontwikkelen waarmee gebruikers:
 
 1. Clone de repository
    ```sh
-   git clone https://github.com/your_username/safewalk-app.git
+   git clone https://github.com/your_username/SecureStep-app.git
 2. Installeer frontend dependencies
     ```sh
     npm install
