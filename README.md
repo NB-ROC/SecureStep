@@ -68,13 +68,21 @@ De focus ligt op:
 SecureStep/
 
 ├── app/                # Backend applicatielogica (controllers, models)
+
 ├── routes/             # Web- en API-routes
+
 ├── resources/          # Frontend assets (CSS, JS, views)
+
 ├── database/           # Migrations en SQLite database
+
 ├── public/             # Publieke bestanden
+
 ├── tests/              # PHPUnit tests
+
 ├── package.json        # Frontend dependencies
+
 ├── composer.json       # Backend dependencies
+
 └── README.md           # Projectdocumentatie
 
 ---
